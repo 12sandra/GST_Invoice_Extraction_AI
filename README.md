@@ -1,4 +1,4 @@
-\# GST Invoice Extraction AI: Evolution from Tesseract to LayoutLMv3
+# GST Invoice Extraction AI: Evolution from Tesseract to LayoutLMv3
 
 
 
@@ -6,7 +6,7 @@ This repository contains two versions of an AI-powered system designed to extrac
 
 
 
-\## 📌 Project Overview
+## 📌 Project Overview
 
 The goal of this project is to automate the manual entry of GST data. We transitioned from a traditional OCR approach to a state-of-the-art Multimodal Transformer model to improve accuracy in complex layouts.
 
