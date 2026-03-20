@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>History — GST Extractor</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F0F4F8;color:#263238;min-height:100vh;display:flex}
+.sidebar{width:220px;flex-shrink:0;background:#0D2137;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0}
+.logo{padding:20px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}.logo h1{color:#fff;font-size:.95rem;font-weight:800}.logo p{color:#90CAF9;font-size:.7rem;margin-top:2px}
+nav{flex:1;padding:14px 8px}.nav-sec{margin-bottom:18px}.nav-lbl{color:rgba(255,255,255,.35);font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:0 8px;margin-bottom:5px}
+.nav-a{display:flex;align-items:center;gap:8px;padding:8px 10px;color:rgba(255,255,255,.65);text-decoration:none;border-radius:7px;font-size:.82rem;font-weight:500;transition:all .15s;margin-bottom:2px}
+.nav-a:hover,.nav-a.active{background:rgba(255,255,255,.12);color:#fff}
+.badge{margin-left:auto;background:#F9A825;color:#1A237E;font-size:.65rem;font-weight:800;padding:1px 6px;border-radius:20px}
+.sidebar-foot{padding:12px 14px;border-top:1px solid rgba(255,255,255,.1)}.user-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.avatar{width:30px;height:30px;border-radius:50%;background:#1565C0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700}.user-name{color:#fff;font-size:.8rem;font-weight:600}
+.logout{display:block;text-align:center;padding:6px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);text-decoration:none;border-radius:6px;font-size:.75rem}.logout:hover{color:#fff;background:rgba(255,255,255,.15)}
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;padding:12px 24px;border-bottom:1px solid #ECEFF1;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;align-items:center;gap:12px}
+.topbar h2{font-size:.95rem;font-weight:700;flex:1}
+.content{padding:24px}
+.search-bar{background:#fff;border-radius:10px;padding:14px 18px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.search-bar input{flex:1;min-width:200px;padding:8px 12px;border:1.5px solid #CFD8DC;border-radius:7px;font-size:.86rem;outline:none}
+.search-bar input:focus{border-color:#1565C0}
+.search-bar select{padding:8px 12px;border:1.5px solid #CFD8DC;border-radius:7px;font-size:.86rem;outline:none;color:#263238}
+.search-bar button{padding:8px 18px;background:#1565C0;color:#fff;border:none;border-radius:7px;font-size:.86rem;font-weight:700;cursor:pointer}
+.search-bar button:hover{background:#0D47A1}
+.tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid #ECEFF1}
+.tab{padding:10px 20px;font-size:.85rem;font-weight:600;color:#546E7A;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;text-decoration:none}
+.tab.active{color:#1565C0;border-bottom-color:#1565C0}
+.tab:hover{color:#1565C0}
+.section-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;margin-bottom:20px}
+.sec-hdr{padding:12px 20px;border-bottom:1px solid #ECEFF1;display:flex;align-items:center;justify-content:space-between}
+.sec-hdr h4{font-size:.88rem;font-weight:700;color:#0D2137}
+.sec-hdr span{font-size:.78rem;color:#546E7A}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 16px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:#FAFAFA;color:#546E7A;text-align:left;border-bottom:1px solid #ECEFF1}
+td{padding:10px 16px;font-size:.82rem;border-bottom:1px solid #F5F5F5;color:#263238;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#F8FAFF}
+td a{color:#1565C0;text-decoration:none;font-weight:600}
+td a:hover{text-decoration:underline}
+.bdg{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.70rem;font-weight:700}
+.bdg-done{background:#E8F5E9;color:#2E7D32}.bdg-error{background:#FFEBEE;color:#C62828}
+.bdg-processing{background:#FFF8E1;color:#E65100}.bdg-pending{background:#ECEFF1;color:#546E7A}
+.empty{padding:28px;text-align:center;color:#90A4AE;font-size:.85rem}
+.btn{padding:7px 16px;border-radius:7px;font-size:.8rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:5px;cursor:pointer;border:none;background:#1565C0;color:#fff;transition:background .2s}
+.btn:hover{background:#0D47A1}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo"><h1>📄 GST Extractor</h1><p>AI-Powered Invoice Processing</p></div>
+  <nav>
+    <div class="nav-sec">
+      <div class="nav-lbl">Main</div>
+      <a href="{% url 'converter:dashboard' %}" class="nav-a"><span>🏠</span>Dashboard</a>
+      <a href="{% url 'converter:upload' %}" class="nav-a"><span>📤</span>Upload Invoice</a>
+      <a href="{% url 'converter:batch_upload' %}" class="nav-a"><span>⚡</span>Bulk Upload<span class="badge">20</span></a>
+    </div>
+    <div class="nav-sec">
+      <div class="nav-lbl">Records</div>
+      <a href="{% url 'converter:history' %}" class="nav-a active"><span>📋</span>History</a>
+      <a href="{% url 'converter:model_status' %}" class="nav-a"><span>🧠</span>AI Model</a>
+    </div>
+  </nav>
+  <div class="sidebar-foot">
+    <div class="user-row"><div class="avatar">{{ user.username|first|upper }}</div><div class="user-name">{{ user.username }}</div></div>
+    <a href="{% url 'accounts:logout' %}" class="logout">Sign Out</a>
+  </div>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <h2>Extraction History</h2>
+    <a href="{% url 'converter:upload' %}" class="btn">+ New Upload</a>
+  </div>
+  <div class="content">
+    <!-- Search -->
+    <form method="get" class="search-bar">
+      <input type="text" name="q" placeholder="Search by filename or invoice number…" value="{{ q }}">
+      <select name="status">
+        <option value="">All Status</option>
+        <option value="done" {% if status == 'done' %}selected{% endif %}>Done</option>
+        <option value="error" {% if status == 'error' %}selected{% endif %}>Error</option>
+        <option value="processing" {% if status == 'processing' %}selected{% endif %}>Processing</option>
+      </select>
+      <button type="submit">Search</button>
+      {% if q or status %}<a href="{% url 'converter:history' %}" style="font-size:.82rem;color:#546E7A;text-decoration:none">Clear</a>{% endif %}
+    </form>
+
+    <!-- Single Uploads -->
+    <div class="section-card">
+      <div class="sec-hdr"><h4>📄 Single Invoice Uploads</h4><span>{{ jobs|length }} records</span></div>
+      {% if jobs %}
+      <table>
+        <thead><tr><th>#</th><th>Filename</th><th>Invoice No.</th><th>Supplier</th><th>Total (₹)</th><th>Fields</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for job in jobs %}
+        <tr>
+          <td>{{ job.pk }}</td>
+          <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{ job.original_filename }}">{{ job.original_filename }}</td>
+          <td>{{ job.inv_no }}</td>
+          <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ job.supplier }}</td>
+          <td>{{ job.total }}</td>
+          <td>{{ job.field_count }}</td>
+          <td><span class="bdg bdg-{{ job.status }}">{{ job.status|title }}</span></td>
+          <td style="white-space:nowrap">{{ job.uploaded_at|date:"d M Y" }}</td>
+          <td style="white-space:nowrap">
+            {% if job.status == 'done' %}
+            <a href="{% url 'converter:results' job.pk %}">View</a> ·
+            <a href="{% url 'converter:download' job.pk %}">Excel</a>
+            {% else %}—{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty">No single uploads found{% if q %} matching "{{ q }}"{% endif %}. <a href="{% url 'converter:upload' %}">Upload an invoice →</a></div>
+      {% endif %}
+    </div>
+
+    <!-- Batch Jobs -->
+    <div class="section-card">
+      <div class="sec-hdr"><h4>⚡ Batch Jobs</h4><span>{{ batches|length }} batches</span></div>
+      {% if batches %}
+      <table>
+        <thead><tr><th>Batch #</th><th>Files</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for b in batches %}
+        <tr>
+          <td>#{{ b.pk }}</td>
+          <td>{{ b.done_files }}/{{ b.total_files }}</td>
+          <td><span class="bdg bdg-{{ b.status }}">{{ b.status|title }}</span></td>
+          <td>{{ b.created_at|date:"d M Y, H:i" }}</td>
+          <td style="white-space:nowrap">
+            <a href="{% url 'converter:batch_results' b.pk %}">View</a>
+            {% if b.batch_excel %} · <a href="{% url 'converter:batch_download_excel' b.pk %}">Excel</a>{% endif %}
+            {% if b.batch_zip %} · <a href="{% url 'converter:batch_download_zip' b.pk %}">ZIP</a>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty">No batch jobs yet. <a href="{% url 'converter:batch_upload' %}">Try bulk upload →</a></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class='container-fluid px-4 py-4'>
+  <!-- Stats Row -->
+  <div class='row g-3 mb-4'>
+    <div class='col-md-3'>
+      <div class='stat-card stat-blue'>
+        <div class='stat-icon'><i class='bi bi-files'></i></div>
+        <div class='stat-info'><div class='stat-num'>{{ total }}</div><div class='stat-label'>Total Uploads</div></div>
+      </div>
+    </div>
+    <div class='col-md-3'>
+      <div class='stat-card stat-green'>
+        <div class='stat-icon'><i class='bi bi-check-circle-fill'></i></div>
+        <div class='stat-info'><div class='stat-num'>{{ completed }}</div><div class='stat-label'>Completed</div></div>
+      </div>
+    </div>
+    <div class='col-md-3'>
+      <div class='stat-card stat-orange'>
+        <div class='stat-icon'><i class='bi bi-hourglass-split'></i></div>
+        <div class='stat-info'><div class='stat-num'>{{ processing }}</div><div class='stat-label'>Processing</div></div>
+      </div>
+    </div>
+    <div class='col-md-3'>
+      <div class='stat-card stat-red'>
+        <div class='stat-icon'><i class='bi bi-x-circle-fill'></i></div>
+        <div class='stat-info'><div class='stat-num'>{{ failed }}</div><div class='stat-label'>Failed</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Banner -->
+  <div class='upload-banner mb-4'>
+    <div class='row align-items-center'>
+      <div class='col-md-8'>
+        <h4><i class='bi bi-robot me-2'></i>AI-Powered GST Document Extraction</h4>
+        <p class='mb-0'>Upload any GST invoice or report (PDF/Image). Our LayoutLMv3 AI will extract all fields automatically.</p>
+      </div>
+      <div class='col-md-4 text-end'>
+        <a href='{% url "upload" %}' class='btn btn-light btn-lg'>
+          <i class='bi bi-cloud-upload me-2'></i>Upload Document
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documents Table -->
+  <div class='card gst-card'>
+    <div class='card-header gst-card-header'>
+      <h5 class='mb-0'><i class='bi bi-table me-2'></i>Recent Documents</h5>
+    </div>
+    <div class='card-body p-0'>
+      {% if docs %}
+      <div class='table-responsive'>
+        <table class='table gst-table mb-0'>
+          <thead>
+            <tr>
+              <th>File Name</th><th>Invoice No.</th><th>Supplier GSTIN</th>
+              <th>Total Amt</th><th>Status</th><th>Date</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for doc in docs %}
+            <tr>
+              <td><i class='bi bi-file-earmark-pdf text-danger me-1'></i>{{ doc.original_filename|truncatechars:30 }}</td>
+              <td>{{ doc.invoice_number|default:'-' }}</td>
+              <td><code>{{ doc.gstin_supplier|default:'-' }}</code></td>
+              <td>{{ doc.total_amount|default:'-' }}</td>
+              <td>
+                <span class='badge status-{{ doc.status }}'>
+                  {% if doc.status == 'completed' %}<i class='bi bi-check-circle me-1'></i>{% endif %}
+                  {{ doc.status|capfirst }}
+                </span>
+              </td>
+              <td>{{ doc.uploaded_at|date:'d M Y, H:i' }}</td>
+              <td class='action-btns'>
+                {% if doc.status == 'completed' %}
+                  <a href='{% url "results" doc.id %}' class='btn btn-sm btn-outline-primary'><i class='bi bi-eye'></i></a>
+                  <a href='{% url "download_excel" doc.id %}' class='btn btn-sm btn-success'><i class='bi bi-download'></i></a>
+                {% endif %}
+                <a href='{% url "delete_document" doc.id %}' class='btn btn-sm btn-outline-danger' onclick='return confirm("Delete this document?")'><i class='bi bi-trash'></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class='empty-state'>
+        <i class='bi bi-inbox'></i>
+        <h5>No documents yet</h5>
+        <p>Upload your first GST invoice to get started</p>
+        <a href='{% url "upload" %}' class='btn btn-primary'>Upload Now</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

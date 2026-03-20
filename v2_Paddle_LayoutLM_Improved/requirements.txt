@@ -1,0 +1,66 @@
+# GST Invoice Converter — Requirements
+# Install order matters. Follow the instructions below.
+#
+# ─── STEP 1: Install PyTorch with CUDA (GPU) ─────────────────────────────────
+# Run this command FIRST (before pip install -r requirements.txt):
+#
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+#
+# Replace cu121 with your CUDA version:
+#   CUDA 11.8 → cu118
+#   CUDA 12.1 → cu121
+#   CUDA 12.4 → cu124
+#   No GPU    → pip install torch torchvision torchaudio
+#
+# Check your CUDA version: nvidia-smi
+#
+# ─── STEP 2: Install PaddlePaddle (GPU) ──────────────────────────────────────
+# Run this BEFORE installing paddleocr:
+#
+#   pip install paddlepaddle-gpu==2.6.1.post120 -f https://www.paddlepaddle.org.cn/whl/windows/mkl/avx/stable.html
+#
+# Or for Linux CUDA 12.x:
+#   pip install paddlepaddle-gpu
+#
+# CPU fallback (no GPU):
+#   pip install paddlepaddle
+#
+# ─── STEP 3: pip install -r requirements.txt ─────────────────────────────────
+
+# Web framework
+django==4.2
+python-decouple
+
+# AI / NLP — LayoutLMv3
+transformers==4.40.0
+timm
+datasets
+seqeval
+accelerate
+sentencepiece
+protobuf
+
+# PaddleOCR (best OCR for Indian GST invoices)
+paddleocr>=2.7.0
+# opencv is required by paddleocr
+opencv-python-headless
+
+# PDF processing
+pdf2image
+pdfplumber
+pypdfium2
+
+# Image processing
+Pillow>=10.0.0
+numpy
+
+# Excel output
+openpyxl
+
+# Utilities
+scipy
+scikit-learn
+
+# Windows only — install Poppler separately:
+# Download from https://github.com/oschwartz10612/poppler-windows/releases
+# Extract to C:\poppler  — set POPPLER_PATH in settings.py

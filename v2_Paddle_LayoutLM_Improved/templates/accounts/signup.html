@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Create Account — GST Extractor</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#0D2137 0%,#1565C0 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:100%;max-width:460px;overflow:hidden}
+.card-top{background:linear-gradient(135deg,#0D2137,#1565C0);padding:28px 32px 24px;text-align:center}
+.card-top h1{color:#fff;font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.card-top p{color:rgba(255,255,255,.7);font-size:.85rem}
+.card-body{padding:28px 32px 32px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{margin-bottom:16px}
+label{display:block;font-size:.81rem;font-weight:600;color:#546E7A;margin-bottom:5px}
+input{width:100%;padding:10px 13px;border:1.5px solid #CFD8DC;border-radius:8px;font-size:.88rem;color:#263238;outline:none;transition:border-color .2s}
+input:focus{border-color:#1565C0;box-shadow:0 0 0 3px rgba(21,101,192,.12)}
+.optional{color:#90A4AE;font-size:.72rem;font-weight:400;margin-left:4px}
+.btn{width:100%;padding:12px;background:#1565C0;color:#fff;border:none;border-radius:8px;font-size:.93rem;font-weight:700;cursor:pointer;transition:background .2s;margin-top:6px}
+.btn:hover{background:#0D47A1}
+.divider{text-align:center;margin:18px 0;color:#90A4AE;font-size:.82rem}
+.link-btn{display:block;text-align:center;padding:10px;border:1.5px solid #CFD8DC;border-radius:8px;color:#546E7A;text-decoration:none;font-size:.87rem;font-weight:600;transition:all .2s}
+.link-btn:hover{border-color:#1565C0;color:#1565C0}
+.msg{padding:10px 14px;border-radius:7px;margin-bottom:16px;font-size:.84rem;font-weight:500;background:#FFEBEE;border-left:4px solid #C62828;color:#C62828}
+.hint{font-size:.75rem;color:#90A4AE;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-top">
+    <h1>📄 Create Account</h1>
+    <p>Start extracting GST invoices with AI</p>
+  </div>
+  <div class="card-body">
+    {% if messages %}
+      {% for m in messages %}<div class="msg">{{ m }}</div>{% endfor %}
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="row">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="johndoe"
+                 value="{{ request.POST.username }}" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="email">Email <span class="optional">(optional)</span></label>
+          <input type="email" id="email" name="email" placeholder="john@example.com"
+                 value="{{ request.POST.email }}" autocomplete="email">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="password1">Password</label>
+          <input type="password" id="password1" name="password1" placeholder="Min 6 chars" required>
+          <div class="hint">At least 6 characters</div>
+        </div>
+        <div class="field">
+          <label for="password2">Confirm Password</label>
+          <input type="password" id="password2" name="password2" placeholder="Repeat password" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="company_name">Company Name <span class="optional">(optional)</span></label>
+          <input type="text" id="company_name" name="company_name" placeholder="ABC Pvt Ltd"
+                 value="{{ request.POST.company_name }}">
+        </div>
+        <div class="field">
+          <label for="gstin">Your GSTIN <span class="optional">(optional)</span></label>
+          <input type="text" id="gstin" name="gstin" placeholder="27AABCDE1234F1Z5"
+                 value="{{ request.POST.gstin }}" maxlength="15">
+        </div>
+      </div>
+      <button type="submit" class="btn">Create Account</button>
+    </form>
+    <div class="divider">— already have an account? —</div>
+    <a href="{% url 'accounts:login' %}" class="link-btn">Sign In</a>
+  </div>
+</div>
+</body>
+</html>

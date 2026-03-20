@@ -1,0 +1,60 @@
+GST Dataset Labeling Report
+==================================================
+
+[OK] 000170mybillprint1.jpg  |  325 words  |  6 labeled  |  fields: GSTIN_S,BANK,TOTAL,HSN,UOM,STATE_CODE  |  3.0s
+[OK] 1.gif  |  110 words  |  3 labeled  |  fields: GSTIN_S,HSN,STATE_CODE  |  0.6s
+[OK] 10.jpg  |  208 words  |  22 labeled  |  fields: UPI_ID,INV_NO,INV_DATE,HSN,QTY,UOM  |  0.9s
+[OK] 11.png  |  210 words  |  3 labeled  |  fields: AC_NO,TOTAL,HSN  |  0.9s
+[OK] 12.jpg  |  224 words  |  2 labeled  |  fields: HSN  |  1.1s
+[OK] 13.jpg  |  112 words  |  6 labeled  |  fields: GSTIN_S,GSTIN_R,PAN,HSN,QTY,UOM  |  0.7s
+[OK] 14.png  |  129 words  |  0 labeled  |  fields: UPI_ID,BANK  |  0.7s
+[OK] 15.jfif  |  193 words  |  6 labeled  |  fields: UPI_ID,TOTAL,HSN,UOM  |  1.0s
+[OK] 16.jpg  |  231 words  |  7 labeled  |  fields: GSTIN_S,GSTIN_R,UPI_ID,HSN,UOM,STATE_CODE  |  0.9s
+[OK] 17.webp  |  158 words  |  7 labeled  |  fields: CGST,SGST,HSN  |  0.9s
+[OK] 18.jpg  |  110 words  |  8 labeled  |  fields: GSTIN_S,GSTIN_R,INV_DATE,STATE_CODE,UPI_ID,SUPPLIER  |  0.6s
+[OK] 19.jpg  |  169 words  |  2 labeled  |  fields: QTY,UOM  |  0.8s
+[OK] 2.webp  |  89 words  |  6 labeled  |  fields: GSTIN_S,GSTIN_R,HSN,STATE_CODE  |  0.5s
+[OK] 20.jpg  |  208 words  |  15 labeled  |  fields: SUPPLIER,HSN  |  1.0s
+[OK] 21.jpg  |  185 words  |  2 labeled  |  fields: INV_DATE  |  0.8s
+[OK] 22.gif  |  146 words  |  3 labeled  |  fields: GSTIN_S,STATE_CODE  |  0.6s
+[OK] 23.jpg  |  155 words  |  6 labeled  |  fields: GSTIN_S,CGST,SGST,STATE_CODE  |  0.7s
+[OK] 3.jpg  |  222 words  |  6 labeled  |  fields: GSTIN_S,UPI_ID,BANK,AC_NO,TAXABLE,TOTAL  |  0.9s
+[OK] 4.gif  |  146 words  |  3 labeled  |  fields: GSTIN_S,STATE_CODE  |  0.6s
+[OK] 5.jpg  |  92 words  |  6 labeled  |  fields: TOTAL,CGST_RATE,SGST_RATE,GST_RATE,HSN  |  0.5s
+[OK] 6.png  |  201 words  |  5 labeled  |  fields: CGST,SGST  |  0.8s
+[OK] 7.jpg  |  256 words  |  8 labeled  |  fields: GSTIN_S,PLACE,IGST,TOTAL_GST,HSN,STATE_CODE  |  1.0s
+[OK] 8-real-bill-of-restraunt-with-gst.jpg  |  69 words  |  0 labeled  |  fields: GSTIN_S,UPI_ID,GST_RATE,CGST_RATE,SGST_RATE,STATE_CODE  |  0.6s
+[OK] 8.webp  |  196 words  |  15 labeled  |  fields: INV_NO,UPI_ID,HSN  |  0.8s
+[OK] 9.png  |  167 words  |  4 labeled  |  fields: GSTIN_S,PLACE,AC_NO,IFSC,IGST,TOTAL_GST  |  0.7s
+[OK] Automatic-Tax-Calculation-GST-Invoice-Format-in-Excel-Download-.xlsx-file.webp  |  275 words  |  7 labeled  |  fields: UPI_ID,IGST_RATE,GST_RATE,HSN  |  0.9s
+[OK] GST Invoice  3.jpg  |  167 words  |  11 labeled  |  fields: GSTIN_S,GSTIN_R,PAN,TAXABLE,HSN,QTY  |  1.0s
+[OK] GST-Invoice-1.jpg  |  165 words  |  7 labeled  |  fields: UPI_ID,TAXABLE,HSN,QTY,UOM  |  0.8s
+[OK] Gemini_Generated_Image_9yz87b9yz87b9yz8.png  |  252 words  |  37 labeled  |  fields: GSTIN_S,GSTIN_R,INV_DATE,UPI_ID,BANK,IFSC  |  0.9s
+[OK] Retail_Simple_Invoice.webp  |  215 words  |  3 labeled  |  fields: GSTIN_S,GSTIN_R,PAN,INV_DATE,BANK,UOM  |  0.9s
+[OK] SAMPLE.jpg  |  327 words  |  26 labeled  |  fields: GSTIN_S,RECIPIENT_PAN,PAN,INV_NO,STATE_CODE,TOTAL_GST  |  1.2s
+[OK] Sample_-_0006.webp  |  367 words  |  18 labeled  |  fields: GSTIN_S,RECIPIENT_PAN,IRN,STATE_CODE,PAN,CIN  |  1.2s
+[OK] Screenshot-2024-10-01-at-1.49.21#U202fPM.webp  |  196 words  |  1 labeled  |  fields: INV_DATE  |  1.0s
+[OK] Screenshot-2024-10-01-at-12.39.24#U202fPM.webp  |  105 words  |  3 labeled  |  fields:   |  0.7s
+[OK] Thermal-GST-Invoice-Format_page-0001-scaled-e1753269543340.jpg  |  107 words  |  8 labeled  |  fields: GSTIN_S,UPI_ID,TAXABLE,TOTAL_GST,TOTAL,HSN  |  0.9s
+[OK] amazon.jpg  |  204 words  |  9 labeled  |  fields: GSTIN_S,BANK,TOTAL,HSN,UOM,STATE_CODE  |  0.9s
+[OK] content-gst-invoice.png  |  201 words  |  5 labeled  |  fields: CGST,SGST  |  0.8s
+[OK] create-tax-invoice.jpg  |  202 words  |  5 labeled  |  fields: UPI_ID,IGST,TOTAL_GST,TOTAL,HSN,QTY  |  0.7s
+[OK] gst-bill-format.png  |  314 words  |  19 labeled  |  fields: BANK,UPI_ID,CGST,TOTAL,HSN,QTY  |  1.2s
+[OK] gst-online-billing-1.png  |  142 words  |  18 labeled  |  fields: GSTIN_S,GSTIN_R,INV_DATE,INV_NO,SUPPLIER,CGST  |  0.8s
+[OK] how-to-edit-invoice-format-template-1.webp  |  197 words  |  4 labeled  |  fields: UPI_ID,PLACE,BANK,CGST  |  0.8s
+[OK] image-39.png  |  154 words  |  14 labeled  |  fields: CGST,SGST,HSN  |  0.9s
+[OK] image-43.png  |  136 words  |  4 labeled  |  fields: UPI_ID,HSN,QTY,UOM,GST_RATE,CGST_RATE  |  0.8s
+[OK] image-45.png  |  172 words  |  6 labeled  |  fields: UPI_ID,HSN,QTY,UOM  |  0.9s
+[OK] img3_140x140.webp  |  150 words  |  8 labeled  |  fields: GSTIN_S,PLACE,PAN,IGST,TOTAL_GST,TOTAL  |  0.6s
+[OK] invoice1-DQC4p64c.png  |  268 words  |  13 labeled  |  fields: INV_NO,TOTAL_GST  |  1.2s
+[OK] invoice_format_2-inch.png  |  95 words  |  5 labeled  |  fields: GSTIN_S,STATE_CODE  |  0.8s
+[OK] jay_bajrang.jpg  |  226 words  |  1 labeled  |  fields: UPI_ID,INV_DATE,BANK,IGST,TOTAL_GST  |  0.8s
+[OK] original_invoice.png  |  205 words  |  8 labeled  |  fields: GSTIN_S,INV_NO,INV_DATE,DISPATCH_DATE,BANK,PAYMENT_TERMS  |  0.9s
+[OK] oub_GST_Invoice_Format.png  |  218 words  |  6 labeled  |  fields: SUPPLIER,CGST_RATE,SGST_RATE,GST_RATE,UOM  |  0.8s
+
+Total: 50 images
+  Success: 50
+  Failed:  0
+
+Next step: Review labels in dataset/labels/*.txt
+Then run:  python finetune_layoutlm.py

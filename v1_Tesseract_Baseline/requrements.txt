@@ -1,0 +1,13 @@
+django==4.2
+transformers==4.40.0
+torch
+torchvision
+Pillow
+pytesseract
+pdf2image
+openpyxl
+python-decouple
+timm
+datasets
+seqeval
+accelerate

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI Model Status</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F0F4F8;color:#263238;min-height:100vh;display:flex}
+.sidebar{width:220px;flex-shrink:0;background:#0D2137;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0}
+.logo{padding:20px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}.logo h1{color:#fff;font-size:.95rem;font-weight:800}.logo p{color:#90CAF9;font-size:.7rem;margin-top:2px}
+nav{flex:1;padding:14px 8px}.nav-sec{margin-bottom:18px}.nav-lbl{color:rgba(255,255,255,.35);font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:0 8px;margin-bottom:5px}
+.nav-a{display:flex;align-items:center;gap:8px;padding:8px 10px;color:rgba(255,255,255,.65);text-decoration:none;border-radius:7px;font-size:.82rem;font-weight:500;transition:all .15s;margin-bottom:2px}
+.nav-a:hover,.nav-a.active{background:rgba(255,255,255,.12);color:#fff}
+.badge{margin-left:auto;background:#F9A825;color:#1A237E;font-size:.65rem;font-weight:800;padding:1px 6px;border-radius:20px}
+.sidebar-foot{padding:12px 14px;border-top:1px solid rgba(255,255,255,.1)}.user-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.avatar{width:30px;height:30px;border-radius:50%;background:#1565C0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700}.user-name{color:#fff;font-size:.8rem;font-weight:600}
+.logout{display:block;text-align:center;padding:6px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);text-decoration:none;border-radius:6px;font-size:.75rem}.logout:hover{color:#fff;background:rgba(255,255,255,.15)}
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;padding:12px 24px;border-bottom:1px solid #ECEFF1;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;align-items:center}
+.topbar h2{font-size:.95rem;font-weight:700}
+.content{padding:24px}
+.explain-box{background:#fff;border-radius:12px;padding:20px 22px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px;border-left:4px solid #00695C}
+.explain-box h3{font-size:.92rem;font-weight:700;color:#00695C;margin-bottom:8px}
+.explain-box p{font-size:.83rem;color:#546E7A;line-height:1.6}
+.explain-box ul{font-size:.82rem;color:#546E7A;margin:8px 0 0 18px;line-height:1.8}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.stat{background:#fff;border-radius:10px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.stat.active{border:2px solid #2E7D32;background:#F9FFF9}
+.stat-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.stat-top .ver{font-size:1.3rem;font-weight:800;color:#0D2137}
+.stat-top .live{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:20px;background:#E8F5E9;color:#2E7D32}
+.stat-row{display:flex;justify-content:space-between;font-size:.8rem;padding:3px 0}
+.stat-row .k{color:#546E7A}.stat-row .v{font-weight:700;color:#263238}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.section-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden}
+.sec-hdr{padding:12px 20px;border-bottom:1px solid #ECEFF1}
+.sec-hdr h4{font-size:.88rem;font-weight:700;color:#0D2137}
+table{width:100%;border-collapse:collapse}
+th{padding:9px 16px;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:#FAFAFA;color:#546E7A;text-align:left}
+td{padding:9px 16px;font-size:.8rem;border-bottom:1px solid #F5F5F5}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#F8FAFF}
+.bdg{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.70rem;font-weight:700}
+.bdg-done{background:#E8F5E9;color:#2E7D32}.bdg-error{background:#FFEBEE;color:#C62828}
+.bdg-running{background:#FFF8E1;color:#E65100}.bdg-pending{background:#ECEFF1;color:#546E7A}
+.active-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:700;background:#E8F5E9;color:#2E7D32}
+.log-box{font-family:monospace;font-size:.72rem;background:#F5F5F5;padding:10px 12px;border-radius:6px;max-height:120px;overflow-y:auto;white-space:pre-wrap;color:#37474F;margin-top:4px}
+.empty{padding:24px;text-align:center;color:#90A4AE;font-size:.83rem}
+.how-it-works{background:#EEF4FF;border-radius:10px;padding:16px 18px;margin-bottom:20px}
+.how-it-works h4{font-size:.87rem;font-weight:700;color:#1565C0;margin-bottom:8px}
+.steps{display:flex;gap:8px;flex-wrap:wrap}
+.step{flex:1;min-width:120px;background:#fff;border-radius:8px;padding:10px 12px;border-top:3px solid #1565C0;font-size:.78rem}
+.step .num{font-size:1rem;font-weight:800;color:#1565C0;margin-bottom:4px}
+.step p{color:#546E7A;line-height:1.4}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo"><h1>📄 GST Extractor</h1><p>AI-Powered Invoice Processing</p></div>
+  <nav>
+    <div class="nav-sec">
+      <div class="nav-lbl">Main</div>
+      <a href="{% url 'converter:dashboard' %}" class="nav-a"><span>🏠</span>Dashboard</a>
+      <a href="{% url 'converter:upload' %}" class="nav-a"><span>📤</span>Upload Invoice</a>
+      <a href="{% url 'converter:batch_upload' %}" class="nav-a"><span>⚡</span>Bulk Upload<span class="badge">20</span></a>
+    </div>
+    <div class="nav-sec">
+      <div class="nav-lbl">Records</div>
+      <a href="{% url 'converter:history' %}" class="nav-a"><span>📋</span>History</a>
+      <a href="{% url 'converter:model_status' %}" class="nav-a active"><span>🧠</span>AI Model</a>
+    </div>
+  </nav>
+  <div class="sidebar-foot">
+    <div class="user-row"><div class="avatar">{{ user.username|first|upper }}</div><div class="user-name">{{ user.username }}</div></div>
+    <a href="{% url 'accounts:logout' %}" class="logout">Sign Out</a>
+  </div>
+</aside>
+<div class="main">
+  <div class="topbar"><h2>🧠 AI Model Status</h2></div>
+  <div class="content">
+
+    <!-- How it works -->
+    <div class="how-it-works">
+      <h4>⚡ How the Ever-Evolving Model Works</h4>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><p>You upload invoices (single or batch)</p></div>
+        <div class="step"><div class="num">2</div><p>AI extracts all GST fields with current model</p></div>
+        <div class="step"><div class="num">3</div><p>Extracted data auto-labels the invoice for training</p></div>
+        <div class="step"><div class="num">4</div><p>After {{ min_threshold|default:"3" }}+ new invoices, model trains in background</p></div>
+        <div class="step"><div class="num">5</div><p>Accuracy improves — model gets smarter every time</p></div>
+      </div>
+    </div>
+
+    <!-- Active model stats -->
+    {% if versions %}
+    <div class="stats">
+      {% for v in versions|slice:":3" %}
+      <div class="stat {% if v.is_active %}active{% endif %}">
+        <div class="stat-top">
+          <span class="ver">v{{ v.version }}</span>
+          {% if v.is_active %}<span class="live">● ACTIVE</span>{% endif %}
+        </div>
+        <div class="stat-row"><span class="k">F1 Score</span><span class="v">{% if v.f1_score %}{{ v.f1_score|floatformat:3 }}{% else %}N/A{% endif %}</span></div>
+        <div class="stat-row"><span class="k">Trained on</span><span class="v">{{ v.invoices_trained_on }} invoices</span></div>
+        <div class="stat-row"><span class="k">Created</span><span class="v">{{ v.created_at|date:"d M Y" }}</span></div>
+        {% if v.notes %}<div style="font-size:.74rem;color:#90A4AE;margin-top:6px">{{ v.notes }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="explain-box">
+      <h3>🧠 Base Model Active</h3>
+      <p>Currently using the pre-trained LayoutLMv3 base model. Upload at least 3 invoices to trigger the first fine-tuning run. The model will improve automatically with every upload.</p>
+    </div>
+    {% endif %}
+
+    <!-- Tables -->
+    <div class="two-col">
+      <div class="section-card">
+        <div class="sec-hdr"><h4>📈 Model Version History</h4></div>
+        {% if versions %}
+        <table>
+          <thead><tr><th>Version</th><th>F1 Score</th><th>Invoices</th><th>Date</th></tr></thead>
+          <tbody>
+          {% for v in versions %}
+          <tr>
+            <td>v{{ v.version }} {% if v.is_active %}<span class="active-badge">Active</span>{% endif %}</td>
+            <td>{% if v.f1_score %}{{ v.f1_score|floatformat:3 }}{% else %}—{% endif %}</td>
+            <td>{{ v.invoices_trained_on }}</td>
+            <td>{{ v.created_at|date:"d M Y" }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty">No fine-tuned versions yet. Upload invoices to start training.</div>
+        {% endif %}
+      </div>
+
+      <div class="section-card">
+        <div class="sec-hdr"><h4>🔧 Training Run Log</h4></div>
+        {% if runs %}
+        <table>
+          <thead><tr><th>Run</th><th>Invoices</th><th>F1</th><th>Status</th><th>Log</th></tr></thead>
+          <tbody>
+          {% for r in runs %}
+          <tr>
+            <td>#{{ r.pk }}</td>
+            <td>{{ r.invoices_used }}</td>
+            <td>{% if r.best_f1 %}{{ r.best_f1|floatformat:3 }}{% else %}—{% endif %}</td>
+            <td><span class="bdg bdg-{{ r.status }}">{{ r.status|title }}</span></td>
+            <td>
+              {% if r.log %}
+              <details>
+                <summary style="cursor:pointer;font-size:.74rem;color:#1565C0">Show log</summary>
+                <div class="log-box">{{ r.log }}</div>
+              </details>
+              {% else %}—{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty">No training runs yet. Upload more invoices to trigger auto-training.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

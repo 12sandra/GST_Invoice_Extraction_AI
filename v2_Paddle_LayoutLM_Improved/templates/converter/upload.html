@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Upload Invoice</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F0F4F8;color:#263238;min-height:100vh;display:flex}
+.sidebar{width:220px;flex-shrink:0;background:#0D2137;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0}
+.logo{padding:20px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.logo h1{color:#fff;font-size:.95rem;font-weight:800}
+.logo p{color:#90CAF9;font-size:.7rem;margin-top:2px}
+nav{flex:1;padding:14px 8px}
+.nav-sec{margin-bottom:18px}
+.nav-lbl{color:rgba(255,255,255,.35);font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:0 8px;margin-bottom:5px}
+.nav-a{display:flex;align-items:center;gap:8px;padding:8px 10px;color:rgba(255,255,255,.65);text-decoration:none;border-radius:7px;font-size:.82rem;font-weight:500;transition:all .15s;margin-bottom:2px}
+.nav-a:hover,.nav-a.active{background:rgba(255,255,255,.12);color:#fff}
+.badge{margin-left:auto;background:#F9A825;color:#1A237E;font-size:.65rem;font-weight:800;padding:1px 6px;border-radius:20px}
+.sidebar-foot{padding:12px 14px;border-top:1px solid rgba(255,255,255,.1)}
+.user-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.avatar{width:30px;height:30px;border-radius:50%;background:#1565C0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700}
+.user-name{color:#fff;font-size:.8rem;font-weight:600}
+.logout{display:block;text-align:center;padding:6px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);text-decoration:none;border-radius:6px;font-size:.75rem}
+.logout:hover{color:#fff;background:rgba(255,255,255,.15)}
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column}
+.topbar{background:#fff;padding:12px 24px;border-bottom:1px solid #ECEFF1;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;align-items:center}
+.topbar h2{font-size:.95rem;font-weight:700}
+.content{padding:24px;flex:1;display:flex;align-items:flex-start;justify-content:center}
+.card{background:#fff;border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,.10);width:100%;max-width:600px;overflow:hidden}
+.card-hdr{background:linear-gradient(135deg,#0D2137,#1565C0);padding:20px 24px;color:#fff}
+.card-hdr h3{font-size:1rem;font-weight:700;margin-bottom:3px}
+.card-hdr p{font-size:.82rem;opacity:.8}
+.card-body{padding:26px}
+.drop{border:2.5px dashed #90CAF9;border-radius:10px;padding:44px 20px;text-align:center;cursor:pointer;background:#E3F2FD;transition:all .2s;position:relative}
+.drop.over,.drop:hover{border-color:#1565C0;background:#BBDEFB}
+.drop svg{width:44px;height:44px;color:#1565C0;margin:0 auto 10px;display:block}
+.drop h4{font-size:.95rem;color:#0D2137;margin-bottom:5px}
+.drop p{font-size:.81rem;color:#546E7A}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.browse{display:inline-block;margin-top:10px;padding:7px 20px;background:#1565C0;color:#fff;border-radius:6px;font-size:.82rem;font-weight:600;pointer-events:none}
+.sel-file{display:none;margin-top:14px;padding:10px 14px;background:#E8F5E9;border-radius:8px;border-left:3px solid #2E7D32;align-items:center;gap:10px}
+.sel-file span{flex:1;font-size:.86rem;font-weight:600;color:#1B5E20}
+.sel-file button{background:none;border:none;cursor:pointer;color:#90A4AE;font-size:1rem;padding:2px 6px;border-radius:4px}
+.sel-file button:hover{color:#C62828;background:#FFEBEE}
+.formats{font-size:.76rem;color:#90A4AE;text-align:center;margin-top:12px}
+.submit-row{margin-top:18px;display:flex;gap:12px}
+.btn{padding:11px 26px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;border:none;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:background .2s}
+.btn-blue{background:#1565C0;color:#fff}
+.btn-blue:hover{background:#0D47A1}
+.btn-blue:disabled{background:#B0BEC5;cursor:not-allowed}
+.btn-out{background:#fff;color:#546E7A;border:1.5px solid #CFD8DC}
+.btn-out:hover{border-color:#1565C0;color:#1565C0}
+.or{text-align:center;margin:22px 0;color:#90A4AE;font-size:.82rem;position:relative}
+.or::before,.or::after{content:'';position:absolute;top:50%;width:43%;height:1px;background:#ECEFF1}
+.or::before{left:0}.or::after{right:0}
+.or span{background:#fff;padding:0 12px;position:relative}
+.batch-cta{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#F8F9FA;border:1.5px dashed #CFD8DC;border-radius:8px;text-decoration:none;color:#0D2137;transition:all .18s}
+.batch-cta:hover{border-color:#1565C0;background:#E3F2FD}
+.batch-cta .ico{font-size:1.6rem}
+.batch-cta strong{display:block;font-size:.87rem;font-weight:700}
+.batch-cta small{font-size:.77rem;color:#546E7A}
+.batch-cta .arr{margin-left:auto;color:#1565C0;font-size:1.2rem}
+.overlay{display:none;position:fixed;inset:0;background:rgba(13,33,55,.82);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.overlay.show{display:flex}
+.spinner{width:48px;height:48px;border:5px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.overlay p{color:#fff;font-size:.95rem;font-weight:600}
+.msg{padding:9px 14px;border-radius:7px;margin-bottom:14px;font-size:.84rem;font-weight:500}
+.msg.error{background:#FFEBEE;border-left:4px solid #C62828;color:#C62828}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo"><h1>📄 GST Extractor</h1><p>AI-Powered Invoice Processing</p></div>
+  <nav>
+    <div class="nav-sec">
+      <div class="nav-lbl">Main</div>
+      <a href="{% url 'converter:dashboard' %}" class="nav-a"><span>🏠</span>Dashboard</a>
+      <a href="{% url 'converter:upload' %}" class="nav-a active"><span>📤</span>Upload Invoice</a>
+      <a href="{% url 'converter:batch_upload' %}" class="nav-a"><span>⚡</span>Bulk Upload<span class="badge">20</span></a>
+    </div>
+    <div class="nav-sec">
+      <div class="nav-lbl">Records</div>
+      <a href="{% url 'converter:history' %}" class="nav-a"><span>📋</span>History</a>
+      <a href="{% url 'converter:model_status' %}" class="nav-a"><span>🧠</span>AI Model</a>
+    </div>
+  </nav>
+  <div class="sidebar-foot">
+    <div class="user-row"><div class="avatar">{{ user.username|first|upper }}</div><div class="user-name">{{ user.username }}</div></div>
+    <a href="{% url 'accounts:logout' %}" class="logout">Sign Out</a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar"><h2>Upload Single Invoice</h2></div>
+  <div class="content">
+    <div class="card">
+      <div class="card-hdr"><h3>Upload Invoice</h3><p>Extract all GST fields automatically into Excel</p></div>
+      <div class="card-body">
+        {% if messages %}{% for m in messages %}<div class="msg {{ m.tags }}">{{ m }}</div>{% endfor %}{% endif %}
+        <form method="post" enctype="multipart/form-data" id="frm">
+          {% csrf_token %}
+          <div class="drop" id="drop">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            <h4>Drop your invoice here</h4>
+            <p>PDF, JPG, PNG, WEBP supported</p>
+            <span class="browse">Browse File</span>
+            <input type="file" name="invoice_file" id="fi" accept=".pdf,.jpg,.jpeg,.png,.tiff,.webp,.bmp">
+          </div>
+          <div class="sel-file" id="sf"><span id="fn">No file</span><button type="button" id="clr">✕</button></div>
+          <p class="formats">PDF · JPG · PNG · WEBP · TIFF · BMP — Max 20 MB</p>
+          <div class="submit-row">
+            <button type="submit" class="btn btn-blue" id="sub" disabled>⚡ Extract Invoice</button>
+            <a href="{% url 'converter:batch_upload' %}" class="btn btn-out">Bulk Upload</a>
+          </div>
+        </form>
+        <div class="or"><span>or upload multiple files</span></div>
+        <a href="{% url 'converter:batch_upload' %}" class="batch-cta">
+          <span class="ico">⚡</span>
+          <div><strong>Bulk Upload — up to 20 invoices</strong><small>Combined register + individual Excel for each file</small></div>
+          <span class="arr">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="ov"><div class="spinner"></div><p>Extracting invoice data...</p></div>
+
+<script>
+const fi=document.getElementById('fi'),drop=document.getElementById('drop'),
+      sf=document.getElementById('sf'),fn=document.getElementById('fn'),
+      clr=document.getElementById('clr'),sub=document.getElementById('sub'),
+      frm=document.getElementById('frm'),ov=document.getElementById('ov');
+function setFile(f){if(!f){clearFile();return;}fn.textContent=f.name;sf.style.display='flex';sub.disabled=false;}
+function clearFile(){fi.value='';sf.style.display='none';sub.disabled=true;}
+fi.addEventListener('change',()=>setFile(fi.files[0]));
+clr.addEventListener('click',clearFile);
+drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over');});
+drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('over');const f=e.dataTransfer.files[0];if(!f)return;try{const dt=new DataTransfer();dt.items.add(f);fi.files=dt.files;}catch(e){}setFile(f);});
+frm.addEventListener('submit',()=>{if(!sub.disabled)ov.classList.add('show');});
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Results - {{ doc.original_filename }}{% endblock %}
+{% block content %}
+<div class='container-fluid px-4 py-4'>
+  <div class='row g-4'>
+    <!-- Left: Extracted Data -->
+    <div class='col-lg-8'>
+      <div class='card gst-card'>
+        <div class='card-header gst-card-header d-flex justify-content-between align-items-center'>
+          <h5 class='mb-0'><i class='bi bi-check-circle-fill text-success me-2'></i>Extraction Results</h5>
+          <a href='{% url "download_excel" doc.id %}' class='btn btn-success'>
+            <i class='bi bi-file-earmark-excel me-2'></i>Download Excel
+          </a>
+        </div>
+        <div class='card-body'>
+          <table class='table gst-table'>
+            <thead><tr><th>GST Field</th><th>Extracted Value</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Supplier GSTIN</td><td><code>{{ doc.gstin_supplier|default:'Not Found' }}</code></td>
+                  <td>{% if doc.gstin_supplier %}<span class='badge bg-success'>Found</span>{% else %}<span class='badge bg-danger'>Missing</span>{% endif %}</td></tr>
+              <tr><td>Recipient GSTIN</td><td><code>{{ doc.gstin_recipient|default:'Not Found' }}</code></td>
+                  <td>{% if doc.gstin_recipient %}<span class='badge bg-success'>Found</span>{% else %}<span class='badge bg-danger'>Missing</span>{% endif %}</td></tr>
+              <tr><td>Invoice Number</td><td>{{ doc.invoice_number|default:'Not Found' }}</td>
+                  <td>{% if doc.invoice_number %}<span class='badge bg-success'>Found</span>{% else %}<span class='badge bg-danger'>Missing</span>{% endif %}</td></tr>
+              <tr><td>Invoice Date</td><td>{{ doc.invoice_date|default:'Not Found' }}</td>
+                  <td>{% if doc.invoice_date %}<span class='badge bg-success'>Found</span>{% else %}<span class='badge bg-danger'>Missing</span>{% endif %}</td></tr>
+              <tr><td>Total Amount</td><td><strong>{{ doc.total_amount|default:'Not Found' }}</strong></td>
+                  <td>{% if doc.total_amount %}<span class='badge bg-success'>Found</span>{% else %}<span class='badge bg-danger'>Missing</span>{% endif %}</td></tr>
+              <tr><td>Total Tax</td><td>{{ doc.total_tax|default:'Not Found' }}</td>
+                  <td>{% if doc.total_tax %}<span class='badge bg-success'>Found</span>{% else %}<span class='badge bg-danger'>Missing</span>{% endif %}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- Right: Document Info -->
+    <div class='col-lg-4'>
+      <div class='card gst-card'>
+        <div class='card-header gst-card-header'><h6 class='mb-0'>Document Info</h6></div>
+        <div class='card-body'>
+          <dl class='row small'>
+            <dt class='col-sm-5'>File</dt><dd class='col-sm-7'>{{ doc.original_filename|truncatechars:25 }}</dd>
+            <dt class='col-sm-5'>Type</dt><dd class='col-sm-7'>{{ doc.file_type|upper }}</dd>
+            <dt class='col-sm-5'>Uploaded</dt><dd class='col-sm-7'>{{ doc.uploaded_at|date:'d M Y' }}</dd>
+            <dt class='col-sm-5'>Processed</dt><dd class='col-sm-7'>{{ doc.processed_at|date:'d M Y, H:i'|default:'N/A' }}</dd>
+            <dt class='col-sm-5'>Status</dt><dd class='col-sm-7'><span class='badge status-{{ doc.status }}'>{{ doc.status|capfirst }}</span></dd>
+          </dl>
+          <hr>
+          <div class='d-grid gap-2'>
+            <a href='{% url "download_excel" doc.id %}' class='btn btn-success'><i class='bi bi-file-earmark-excel me-2'></i>Download Excel Report</a>
+            <a href='{% url "upload" %}' class='btn btn-outline-primary'><i class='bi bi-plus-circle me-2'></i>Upload Another</a>
+            <a href='{% url "dashboard" %}' class='btn btn-outline-secondary'><i class='bi bi-arrow-left me-2'></i>Back to Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
