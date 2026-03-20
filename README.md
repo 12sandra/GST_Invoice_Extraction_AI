@@ -16,11 +16,11 @@ The goal of this project is to automate the manual entry of GST data. We transit
 
 
 
-\## 🏗 Repository Structure
+## 🏗 Repository Structure
 
 
 
-\### \[v1\_Tesseract\_Baseline]
+### \[v1\_Tesseract\_Baseline]
 
 This version represents the initial prototype.
 
@@ -32,7 +32,7 @@ This version represents the initial prototype.
 
 
 
-\### \[v2\_Paddle\_LayoutLM\_Improved]
+### \[v2\_Paddle\_LayoutLM\_Improved]
 
 The current "Improved Model" that solves layout-based extraction challenges.
 
@@ -50,7 +50,7 @@ The current "Improved Model" that solves layout-based extraction challenges.
 
 
 
-\## 🚀 Technical Workflow
+## 🚀 Technical Workflow
 
 
 
@@ -74,11 +74,11 @@ The current "Improved Model" that solves layout-based extraction challenges.
 
 
 
-\## 🛠 Setup \& Installation
+## 🛠 Setup \& Installation
 
 
 
-\### Local Development (CPU/Testing)
+### Local Development (CPU/Testing)
 
 1\. Clone the repo:
 
